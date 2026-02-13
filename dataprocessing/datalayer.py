@@ -165,5 +165,5 @@ def print_profile(profile: TableProfile) -> None:
             print(f"    numeric : min={col.min_val:.2f}  max={col.max_val:.2f}  avg={col.avg_val:.2f}")
     print()
 
-profile = load_and_profile("Amazon Sale Report.csv")
-print_profile(profile)
+# profile = load_and_profile("data\\Amazon Sale Report.csv")
+# print_profile(profile)

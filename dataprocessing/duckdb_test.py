@@ -1,5 +1,6 @@
 import duckdb
 import time
+from pathlib import Path
 
 
 CSV_FILE = "Amazon Sale Report.csv"
@@ -19,17 +20,19 @@ def run_query(con, title, query):
 
 
 def main():
+
+    csv_path = Path("data\\Amazon Sale Report.csv")
     con = duckdb.connect()
     
 #    # 1. Overall Revenue
-#     run_query(
-#         con,
-#         "Total Revenue",
-#         f"""
-#         SELECT SUM(Amount) AS total_revenue
-#         FROM '{CSV_FILE}'
-#         """
-#     )
+    run_query(
+        con,
+        "Total Revenue",
+        f"""
+        SELECT SUM(Amount) AS total_revenue
+        FROM '{csv_path}'
+        """
+    )
 
 #      # 2. Yearly Revenue
 #     run_query(
@@ -99,54 +102,57 @@ def main():
 #     )
 
     # Q1: Underperforming categories in Q4
+#     run_query(
+#         con,
+#         "Lowest Revenue Categories in Q4",
+#         f"""
+#         SELECT 
+#     SUM(Amount) AS total_revenue
+# FROM 'Amazon Sale Report.csv'
+# WHERE EXTRACT(YEAR FROM Date) = 2022;
+#         """
+#     )
+#     run_query(
+#         con,
+#         "Lowest Revenue Categories in Q4",
+#         f"""
+#         SELECT 
+#     Category,
+#     SUM(Amount) AS total_revenue
+# FROM 'Amazon Sale Report.csv'
+# GROUP BY Category
+# ORDER BY total_revenue DESC
+# LIMIT 1;
+#         """
+#     )
+#     run_query(
+#         con,
+#         "Lowest Revenue Categories in Q4",
+#         f"""
+#         SELECT 
+#     ROUND(
+#         SUM(CASE WHEN Status ILIKE '%Cancelled%' THEN 1 ELSE 0 END) * 100.0
+#         / COUNT(*),
+#         2
+#     ) AS cancellation_rate_percent
+# FROM 'Amazon Sale Report.csv';
+#         """
+#     )
     run_query(
         con,
         "Lowest Revenue Categories in Q4",
         f"""
-        SELECT 
-    SUM(Amount) AS total_revenue
-FROM 'Amazon Sale Report.csv'
-WHERE EXTRACT(YEAR FROM Date) = 2022;
+        SELECT
+      SUM("Amount") AS "total_revenue"
+FROM '{csv_path}'
         """
     )
-    run_query(
-        con,
-        "Lowest Revenue Categories in Q4",
-        f"""
-        SELECT 
-    Category,
-    SUM(Amount) AS total_revenue
-FROM 'Amazon Sale Report.csv'
-GROUP BY Category
-ORDER BY total_revenue DESC
-LIMIT 1;
-        """
-    )
-    run_query(
-        con,
-        "Lowest Revenue Categories in Q4",
-        f"""
-        SELECT 
-    ROUND(
-        SUM(CASE WHEN Status ILIKE '%Cancelled%' THEN 1 ELSE 0 END) * 100.0
-        / COUNT(*),
-        2
-    ) AS cancellation_rate_percent
-FROM 'Amazon Sale Report.csv';
-        """
-    )
-    run_query(
-        con,
-        "Lowest Revenue Categories in Q4",
-        f"""
-        SELECT 
-    Fulfilment,
-    SUM(Amount) AS total_revenue
-FROM 'Amazon Sale Report.csv'
-GROUP BY Fulfilment
-ORDER BY total_revenue DESC;
-        """
-    )
+
+    # run_query(con, "total amount",f"""
+    # SELECT
+    #   SUM("Amount") AS "total_revenue"
+    # FROM amazon_sale_report;
+    # """)
 
 
 
