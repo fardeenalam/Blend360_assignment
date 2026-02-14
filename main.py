@@ -13,7 +13,7 @@ def main() -> None:
     # CONFIG (hardcoded for now – keep it simple)
     # ------------------------------------------------------------
     csv_path = Path("data/Amazon Sale Report.csv")
-    user_query = "Which product line is doing best?"
+    user_query = "Give me a summary of the data."
 
     print(f"\nLoading file: {csv_path}")
 
