@@ -36,7 +36,7 @@ def main() -> None:
     db_con = duckdb.connect(database=":memory:")
     db_con.execute(
         f"CREATE TABLE {table_profile.table_name} AS "
-        f"SELECT * FROM read_csv_auto('{csv_path.resolve()}', header=true)"
+        f"SELECT * FROM read_csv_auto('{csv_path.resolve()}', header=true, ignore_errors=true, sample_size=-1)"
     )
 
     print("Building graph...")
