@@ -22,15 +22,13 @@ def run_query(con, title, query):
 def main():
 
     csv_path = Path("data\\Amazon Sale Report.csv")
-    con = duckdb.connect()
-    
-#    # 1. Overall Revenue
-    run_query(
-        con,
-        "Total Revenue",
+    con = duckdb.connect(database=":memory:")
+    table_name = csv_path.stem.lower().replace(" ", "_").replace("-", "_")
+    # loading the csv file
+    con.execute(
         f"""
-        SELECT SUM(Amount) AS total_revenue
-        FROM '{csv_path}'
+        CREATE TABLE {table_name} AS
+        SELECT * FROM read_csv_auto('{csv_path.resolve()}', header=true)  
         """
     )
 
@@ -140,11 +138,13 @@ def main():
 #     )
     run_query(
         con,
-        "Lowest Revenue Categories in Q4",
+        "performing",
         f"""
-        SELECT
-      SUM("Amount") AS "total_revenue"
-FROM '{csv_path}'
+        SELECT "Category", SUM("Amount") AS "total_amount"
+FROM amazon_sale_report
+GROUP BY "Category"
+ORDER BY "total_amount" DESC
+LIMIT 1;
         """
     )
 

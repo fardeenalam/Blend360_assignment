@@ -138,7 +138,7 @@ def load_and_profile(csv_path: str | Path) -> TableProfile:
             )
         )
 
-
+#  if group by in high cardinality necessary always apply limit
     con.close()
 
     return TableProfile(
