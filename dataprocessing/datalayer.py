@@ -57,7 +57,7 @@ def load_and_profile(csv_path: str | Path) -> TableProfile:
     con.execute(
         f"""
         CREATE TABLE {table_name} AS
-        SELECT * FROM read_csv_auto('{csv_path.resolve()}', header=true)  
+        SELECT * FROM read_csv_auto('{csv_path.resolve()}', header=true, all_varchar=true)  
         """
     )
 
